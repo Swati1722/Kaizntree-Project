@@ -18,11 +18,8 @@ def handle_login(request):
    try:
       if request.method == 'POST':
          email = request.POST.get('login-email')
-         print("email =>", email)
          password = request.POST.get('login-password')
-         print("password =>", password)
          user = authenticate(username=email, password=password)
-         print("user =>", user)
          if user:
             login(request, user)
             messages.success(request, 'Login successful.')
@@ -31,7 +28,7 @@ def handle_login(request):
             messages.error(request, 'Invalid email or password. Please try again.')
             return render(request, 'login.html')
       else:
-         print("into else online 30")
+        
          return render(request, 'login.html')
    except Exception as e:
       print("Error in login page", str(e))
@@ -52,29 +49,24 @@ def signup(request):
          pass2 = request.POST.get('signup-password-confirmed')
          fname = name.split(' ')[0]
          lname = name.split(' ')[1]
-         print(name, email, pass1, pass2)
-         # Check for errorneous inputs
          
          if pass1 != pass2:
-               print("on line 55")
                messages.error(request, "Passwords do not match")
                return redirect('/signup/')
          
          #  create the user
          if User.objects.filter(username = email).first():
-               print("on line 61")
                messages.error(request, "This username is already taken")
                return redirect('/signup/')
          
-         print("on check 1.")
          myuser = User.objects.create_user(username=email, password= pass1)
          myuser.first_name = fname
          myuser.last_name = lname
          myuser.save()
          messages.success(request , "Your account has been successfully created.")
-         print("redirecting to login page.")
+       
          return redirect('/login/')
-      print("redirecting to singup page.")
+      
       return render(request, "signup.html")
    except Exception as e:
       print("Error in login page", str(e))
