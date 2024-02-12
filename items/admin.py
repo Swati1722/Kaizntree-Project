@@ -4,5 +4,4 @@ from items.models import *
 
 admin.site.register(Items)
 admin.site.register(Tag)
-
-# Register your models here.
+admin.site.register(Category)
